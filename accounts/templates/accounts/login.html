@@ -3,25 +3,41 @@
 
 {% block content %}
 <div class="container">
-    <h1>Log in!</h1>
+  <div class="row mt-5 justify-content-center">
+    <div class="col-lg-8">
+      <div class="ui middle aligned center aligned grid">
+        <div class="column mt-5">
+          <h2 class="ui red image header">
+            <div class="content">Log-in</div>
+          </h2>
 
-    <form action="{% url 'login' %}" method="POST">
-    {% csrf_token %}
-    Username: <br>
-    <input type="text" name="username"> <br>
+            {% include '_partials/messages.html'%}
 
-    Password: <br>
-    <input type="password" name="password"> <br><br>
+          <form class="ui large form" method="post" action={% url 'login_user' %}>{% csrf_token %}
+            <div class="ui stacked segment">
+              <div class="field">
+                <div class="ui left icon input">
+                  <i class="user icon"></i>
+                  <input type="text" required name="username" placeholder="Username" value="{{ data.username }}" />
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui left icon input">
+                  <i class="lock icon"></i>
+                  <input type="password" required name="password" placeholder="Password" />
+                </div>
+              </div>
+              <button class="ui fluid large red submit button">Login</button>
+            </div>
 
-    <input type="submit" value="Log in" class="btn btn-danger">
+          </form>
 
-    </form>
-    
-    <br>
-    {% if error %}
-    {{ error }}
-    {% endif %}
-
+          <div class="ui message">Dont have an account? <a href={% url 'signup'  %}>Signup</a></div>
+          
+        </div> 
+      </div> 
+    </div>
+  </div>
 </div>
   
 {% endblock %}

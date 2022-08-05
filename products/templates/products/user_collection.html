@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Users Wish List{% endblock %}
+
+{% block content %}
+<div class="col-12 mx-auto">
+  <h1 class="h3">My Collection</h1>
+  <div>Manage your collection</div>
+  <hr />
+  {% include '_partials/messages.html'%}
+  {% if collection %}
+  {% for product in collection  %}
+  
+  <div class="card mb-3 rounded-0">
+    <div class="row g-0">
+      <div class="col-md-2">
+        <img class="img-fluid d-block p-2" width="135px" src="{{product.image.url}}" alt="{{ product.title }}"  />
+      </div>
+      <div class="col-md-10">
+        <div class="card-body">
+          <h5 class="card-title">{{product.title}}</h5>
+          <p class="card-text">{{product.description}}</p>
+          <p class="card-text"><small class="text-muted">{{product.vote_count}} vote(s)</small></p>
+          <a type="button" class="btn btn-primary fw500 btn-sm" href="{% url 'add_collection' product.id %}">Remove from collection</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endfor %}
+  {% else %}
+  <p class="card-text">No products have been added to your collection yet</p>
+  {% endif %}
+
+
+
+</div>
+{% endblock %}

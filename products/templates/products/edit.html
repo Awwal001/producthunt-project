@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="fw-bold">Edit Product</h2>
+                    </div>
+                    <div class="card-body">
+                        <form action="" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="" class="form-label">Name</label>
+                                <input type="text" Required name="title" value="{{ product.title }}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Descritpion</label>
+                                <input type="text" Required name="description" value="{{ product.description }}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Project's URL</label>
+                                <input type="text"  name="project_url" value="{{ product.project_url }}" class="form-control">
+                            </div>
+                             <div class="mb-3">
+                                
+                                <label for="" class="form-label">Image</label>
+                                <input type="file" name="image" class="form-control">
+                                {% if product.image %}
+                                    <p>{{ product.image.url }} </p>
+                                {% endif %}
+                            </div>
+                            <button type="submit" class="btn btn-warning">Update</button>
+                        </form>
+                    </div>
+                    {% include '_partials/messages.html'%}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+  
+{% endblock %}
