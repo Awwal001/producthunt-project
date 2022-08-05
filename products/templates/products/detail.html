@@ -1,52 +1,394 @@
 {% extends 'base.html' %}
 
+{% block title %}
+{{product.title}}
+{% endblock %}
 
 {% block content %}
+
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&display=swap');
+
+  .h1 {
+    font-family: 'PT Serif', serif;
+    font-size: 2.55rem;
+    line-height: 2.6rem;
+    letter-spacing: -0.063px;
+  }
+
+  h2 {
+    font-family: 'PT Serif', serif;
+    font-size: 1.9rem;
+    line-height: 2.6rem;
+    letter-spacing: -0.063px;
+    font-weight: 700;
+    padding-top: 48px;
+  }
+
+  p {
+    font-family: 'PT Serif', serif;
+    line-height: 2rem;
+    font-size: 1.3rem
+  }
+
+  @media screen and (min-width: 600px) {
+    .children form {
+      margin-left: -48px;
+      /* will touch very left side */
+    }
+
+    .children .children form {
+      margin-left: -96px;
+      /* will touch very left side */
+    }
+  }
+
+  .avatar_comment,
+  .avatar_single {
+    height: 48px;
+    width: 48px;
+    background-color: #000;
+    border-radius: 50%;
+    display: inline-block;
+
+  }
+
+  .smaller {
+    font-size: 0.8rem;
+  }
+
+  .thumb-active {
+    fill: blue
+  }
+
+  .comment-add {}
+
+  .comment-add {
+    border-bottom: 1px solid #ccc !important;
+  }
+
+  .comment-add:focus {
+    border-color: #1497ff;
+    box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.075), 0 0 0px rgba(255, 0, 0, 0.6);
+  }
+
+  .node-content {
+    padding-left: 64px;
+  }
+</style>
+
 <div class="container">
+  {% include '_partials/messages.html'%}
+  <div class="row justify-content-md-center pt-5">
+    <div class="col-md-8 d-flex justify-content-between">
+      <h2 class="h2">{{product.title}}</h2>
+    </div>
+    <div class="col-md-8 d-flex justify-content-between pt-3">
+      <div class="d-flex">
+        <div><img class="avatar_single" src="{{ profile.avatar.url }}"></div>
+        <div class="pl-3 no-gutters">
+          <div class="col-12 no-gutters">{{ product.author|title }}</div>
+          <div class="col-12 no-gutters smaller text-muted">{{product.publish}}</div>
+        </div>
+      </div>
+      {% if user.user_type == 'Hunter' %}
+      <div class="d-flex">
+        <span id="thumbs" data-value="{{product.id}}"></span>
+
+        {% if request.user.is_authenticated %}
+        
+        <div class="pr-2">
+          <span class="" id="vote_count">{{product.vote_count}}</span>
+          <button class="btn btn-link text-dark p-0 border-0 btn-outline-light" id="like-button" value="{{product.id}}">
+            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-heart" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+            </svg>
+          </button>
+        </div>
+        {% if collect %}
+        <div>
+          <a href="{% url 'collections' %}" class="text-dark">
+            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-bookmark-check" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.5 2a.5.5 0 0 0-.5.5v11.066l4-2.667 4 2.667V8.5a.5.5 0 0 1 1 0v6.934l-5-3.333-5 3.333V2.5A1.5 1.5 0 0 1 4.5 1h4a.5.5 0 0 1 0 1h-4z" />
+              <path fill-rule="evenodd"
+                d="M15.854 2.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 4.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
+            </svg>
+          </a>
+        </div>
+        {% else %}
+        <div>
+          <a href="{% url 'add_collection' product.id %}" class="text-dark">
+            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-bookmark-plus" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.5 2a.5.5 0 0 0-.5.5v11.066l4-2.667 4 2.667V8.5a.5.5 0 0 1 1 0v6.934l-5-3.333-5 3.333V2.5A1.5 1.5 0 0 1 4.5 1h4a.5.5 0 0 1 0 1h-4zm9-1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1H13V1.5a.5.5 0 0 1 .5-.5z" />
+              <path fill-rule="evenodd" d="M13 3.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0v-2z" />
+            </svg>
+          </a>
+        </div>
+        {% endif %}
+        {% else %}
+        <div class="pr-2">
+          <span class="" id="vote_count">{{product.vote_count}}</span>
+          <a href="{% url 'create' %}" class="btn btn-link text-dark p-0 border-0 btn-outline-light"
+            value="{{product.id}}">
+            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-heart" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+            </svg>
+          </a>
+        </div>
+        <div>
+          <a href="{% url 'create' %}" class="text-dark"> <svg width="1.5em" height="1.5em"
+              viewBox="0 0 16 16" class="bi bi-bookmark-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.5 2a.5.5 0 0 0-.5.5v11.066l4-2.667 4 2.667V8.5a.5.5 0 0 1 1 0v6.934l-5-3.333-5 3.333V2.5A1.5 1.5 0 0 1 4.5 1h4a.5.5 0 0 1 0 1h-4zm9-1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1H13V1.5a.5.5 0 0 1 .5-.5z" />
+              <path fill-rule="evenodd" d="M13 3.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0v-2z" />
+            </svg></a>
+        </div>
+        {% endif %}
+      </div>
+      {% else %}
+      <div class="d-flex">
+        <span class="pr-0 h5 text-muted " id="vote_count">{{product.vote_count}}</span>
+            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-heart" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+            </svg>
+      </div>
+      {% endif %}
+    </div>
+    
+    
+    <div class="col-md-8 pt-5">
+      <img class="card-img-top" src="{{product.image.url}}" alt="{{ product.title }}">
+      <div class="col-12 text-center medium text-muted pt-2"><a href="{{product.project_url}}" >{{product.project_url}}</a></div>
+      <div class="col-12 text-center medium text-muted py-3">{{product.description|safe}}</div>
+    </div>
+   
+   <!-- Comment System -->
+
+   <div class="col-lg-8">
     <div class="row">
-      <div class="col-2">
-        <img src="{{ product.icon.url }}" alt="" class="img-fluid">
-      </div>
-      <div class="col-10">
-        <a href="{{ product.url }}"><h1>{{  product.title}}</h1></a>
+        <div class="col-md-8 ">
+          <div class="card card-header  my-4">
+
+          {% load mptt_tags %}
+            <div class="allcommments">
+
+              {% recursetree allcomments %}
+              <div id="{{ node.id }}" class="my-2 p-2" style="border: 0px solid grey">
+
+
+                <div class="d-flex justify-content-between">
+
+                  <div><img class="avatar_single mr-3" src="{{ profile.avatar.url }}">By {{ node.author }}</div>
+                  {{ node.publish }}
+
+
+                </div>
+
+                <div class="node-content">{{ node.content }}</div>
+
+                <div class="d-flex flex-row-reverse">
+                  {% if node.level < 3 %}
+                  <button class="btn btn-primary btn-sm" onclick="myFunction({{ node.id }})">Reply</button>
+                  {% endif %}
+                  {% if node.author|stringformat:"s" == user.get_username  %}
+                  <button class="btn btn-secondary btn-sm mr-2" onclick="deleteComment({{ node.id }})">Delete</button>
+                  {% endif %}
+                </div>
+                <hr />
+              </div>
+              {% if not node.is_leaf_node %}
+              <div class="children pl-2 pl-md-5">
+                {{ children }}
+              </div>
+              {% endif %}
+              {% endrecursetree %}
+
+              
+              <form id="commentform" class="commentform" method="post">
+                {% csrf_token %}
+                {% with allcomments.count as total_comments %}
+                <p>{{ total_comments }} comment{{ total_comments|pluralize }}</p>
+                {% endwith %}
+
+                <select name="product" class="d_none" id="id_product">
+                  <option value="{{ product.id }}" selected="{{ product.id }}"></option>
+                </select>
+
+                <label class="small font-weight-bold">{{ comment_form.parent.label }}</label>
+                {{ comment_form.parent }}
+
+                <div class="d-flex" >
+                  <img class="avatar_comment align-self-center" src="{{ profile.avatar.url }}"/>
+                  {{ comment_form.content }}
+                </div>
+
+                <div class="d-flex flex-row-reverse mt-2" >
+                  <button value="commentform" id="newcomment" type="submit" class="newcomment btn btn-danger">Comment</button>
+                </div>
+              </form>
+            
+
+            
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4 p-6">
+          {% if user.user_type == 'Hunter' %}
+          <div class="card card-header my-4">
+            {% if offer == False %}
+            <form action="{% url 'make_offer' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="mb-2">
+                    <label for="" class="form-label font-weight-bold">Write an offer</label>
+                    <textarea class="form-control" name="message" rows="4" ></textarea>
+                </div>
+                <div class="text-center"><button type="submit" class="btn btn-danger">Send Offer</button></div>
+            </form>
+            {% else %}
+            <p  class="text-center">You have sent an offer!</p>
+            {% endif %}
+          </div>
+          {% else %}
+          <p class="text-center card card-header my-4" style="background-color: rgba(0, 0, 0, 0.5);"  >Offer(s) Received: {{ counter }}</p>
+          {% endif %}
+        </div>
       </div>
     </div>
-
-
-    <div class="row">
-      <div class="col-8">
-        <img src="{{ product.image.url }}" alt="" class="img-fluid">
-      </div>
-      <div class="col-4">
-        <a href="javascript:{document.getElementById('upvote').submit()}"><button class="btn btn-primary btn-lg btn-block"><span class="oi oi-caret-top"></span> Upvote {{product.votes_total}}</button></a>
-      </div>
-    </div>
-
-
-    <div class="row pt-2">
-      <div class="col-4">
-        <h4><span class="oi oi-magnifying-glass"></span> Hunted by {{ product.hunter.username }} </h4>
-      </div>
-      <div class="col-4 text-right">
-        <h4><span class="oi oi-clock"></span> {{ product.pub_date_pretty }}</h4>
-      </div>
-    </div>
-
-
-    <div class="row">
-      <div class="col-4">
-        <p> {{ product.body }} </p>
-      </div>
-
-    </div>
-
-    <form id="upvote" action="{% url 'upvote' product.id %}" method="POST">
-      {% csrf_token %}
-      <input type="hidden">
-
-    </form>
-
-
+  </div>
 </div>
+
+<script>
+  //Comments
+
+  $(document).on('click', '#newcomment, #newcommentinner', function (e) {
+    e.preventDefault();
+
+    var button = $(this).attr("value");
+
+    var placement = "commentform"
+    if (button == "newcommentform") {
+      var placement = "newcommentform"
+    }
+
+    $.ajax({
+      type: 'POST',
+      url: '{% url "addcomment" %}',
+      data: $("#" + button).serialize(),
+      cache: false,
+      success: function (json) {
+        console.log(json)
+
+
+        $('<div id="" class="my-2 p-2" style="border: 1px solid grey"> \
+          <div class="d-flex justify-content-between">By ' + json['user'] + '<div></div>Posted: Just now!</div> \
+          <div>' + json['result'] + '</div> \
+          <hr> \
+          </div>').insertBefore('#' + placement);
+
+        $('.commentform').trigger("reset");
+        formExit()
+
+      },
+      error: function (xhr, errmsg, err) {
+
+      }
+    });
+  })
+
+  function formExit(e) {
+    e.preventDefault();
+    document.getElementById("newcommentform").remove();
+    $("#newcommentform").remove();
+  }
+
+  function deleteComment(id) {
+    console.log(id)
+    $.ajax({
+      type: 'POST',
+      url: '{% url "addcomment" %}',
+      data: {
+        nodeid: id,
+        action: 'delete',
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+      },
+      success: function (json) {
+        $("#" + json['remove']).remove();
+      },
+      error: function (xhr, errmsg, err) {}
+    });
+  }
+
+  function myFunction(id) {
+    if (document.contains(document.getElementById("newcommentform"))) {
+      document.getElementById("newcommentform").remove();
+    }
+    var productid = document.getElementById('thumbs').getAttribute('data-value');
+    var imgFullURL = $('img.avatar_comment')[0].src;
+    var d1 = document.getElementById(id);
+    d1.insertAdjacentHTML('afterend',
+      '<form id="newcommentform" class="commentform" method="post"> \
+        {% csrf_token %} \
+        <select name="product" class="d_none" id="id_product"> \
+          <option value="' + productid + '" selected="' + productid + '"></option> \
+        </select> <label class="small font-weight-bold"></label> \
+        <select name="parent" class="d-none" id="id_parent"> \
+          <option value="' + id + '" selected="' + id + '"></option> \
+        </select> \
+        <div class="d-flex"> \
+          <img class="avatar_comment align-self-center" src="' + imgFullURL + '"> \
+          <textarea name="content" cols="40" rows="1" class="ml-3 mb-3 form-control border-0 comment-add rounded-0" placeholder="Add a public comment" required="" id="id_content"></textarea> \
+        </div> \
+        <div class="d-flex flex-row-reverse"> \
+        <button type="button" class="btn btn-outline-secondary" onclick="formExit()">Close</button> \
+          <button value="newcommentform" id="newcommentinner" type="submit" class="mr-1 newcomment btn btn-primary ">Submit</button> \
+        </div> \
+      </form>'
+    );
+  }
+
+
+
+  //Reset form on page reload
+
+  $('.commentform').trigger("reset");
+
+
+
+
+  //Heart Post Rating
+  $(document).on('click', '#like-button', function (e) {
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "vote" %}',
+      data: {
+        productid: $('#like-button').val(),
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'post'
+      },
+      success: function (json) {
+        document.getElementById("vote_count").innerHTML = json['result']
+      },
+      error: function (xhr, errmsg, err) {
+
+      }
+    });
+  })
   
+</script>
+
 {% endblock %}

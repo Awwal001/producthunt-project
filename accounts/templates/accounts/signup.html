@@ -3,27 +3,74 @@
 
 {% block content %}
 <div class="container">
-    <h1>Sign Up!</h1>
-
-    <form action="{% url 'signup' %}" method="POST">
-    {% csrf_token %}
-    Username: <br>
-    <input type="text" name="username"> <br>
-
-    Password: <br>
-    <input type="password" name="password1"> <br>
-
-    Confirm Password: <br>
-    <input type="password" name="password2"> <br><br>
-
-    <input type="submit" value="Sign up" class="btn btn-danger">
-
-    </form>
-    <br>
-    {% if error %}
-    {{ error }}
-    {% endif %}
-
-</div>
+  <div class="row mt-5 justify-content-center">
+    <div class="col-lg-8">
+      <div class="ui middle aligned center aligned grid">
+        <div class="column mt-5 ">
+          <h2 class="ui red image header">
+            <div class="content">Registration</div>
+          </h2>
   
+            {% include '_partials/messages.html'%}
+  
+  
+          <form class="ui large form" method="post" action={% url 'signup' %}>{% csrf_token %}
+            <div class="ui stacked segment">
+                <div class="field">
+                    <div class="ui left icon input">
+                      <i class="user icon"></i>
+                      <input type="text" name="email" value="{{data.email}}" placeholder="E-mail address" />
+                    </div>
+                </div>
+  
+                <div class="field">
+                    <div class="ui left icon input">
+                      <i class="user icon"></i>
+                      <input type="text" name="username" value="{{data.username}}"  placeholder="Username" />
+                    </div>
+                </div>
+
+                <div class="field">
+                  <div class="ui selection dropdown">
+                    <input type="hidden" name="user_type" />
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Choose your fighter!</div>
+                    <div class="menu">
+                      <div class="item" data-value="Talent">Talent</div>
+                      <div class="item" data-value="Hunter">Hunter</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <div class="ui left icon input">
+                    <i class="lock icon"></i>
+                    <input type="password" name="password" placeholder="Password" />
+                  </div>
+                </div>
+  
+                <div class="field">
+                  <div class="ui left icon input">
+                    <i class="lock icon"></i>
+                    <input
+                      type="password"
+                      name="password2"
+                      placeholder="Repeat Password"
+                    />
+                  </div>
+                </div>
+                <button class="ui fluid large red submit button">Submit</button>
+            </div>
+  
+          </form>
+  
+          <div class="ui message">Have an account? <a href={% url 'login_user'  %}>Login</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $('.ui.dropdown').dropdown();
+</script>
 {% endblock %}

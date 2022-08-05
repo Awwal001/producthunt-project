@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Users Wish List{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="col-12 mx-auto">
+    <header class="text-center">
+      <div class="h3 text-center">My Projects</div> <hr >
+      
+    </header>
+    <hr >
+
+    <div class="h4 text-center">Manage your Projects</div>
+    <hr >
+    {% if projects %}
+    {% for product in projects  %}
+
+    <div class="card mb-3 rounded-0">
+      <div class="row g-0">
+        <div class="col-md-2">
+          <img class="img-fluid d-block p-2" width="135px" src="{{product.image.url}}" alt="{{ product.title }}"  />
+        </div>
+        <div class="col-md-10">
+          <div class="card-body">
+            <h5 class="card-title">{{product.title}}</h5>
+            <p class="card-text">{{product.description}}</p>
+            <p class="card-text"><small class="text-muted">{{product.vote_count}} votes</small></p>
+            <div class="card-text"><a href="{{product.project_url}}" >{{product.project_url}}</a></div>
+            <p class="">
+            <div class="float-right p-2" style="display: inline-block;"><a href="{% url 'edit_product'  product.id %}" class="btn btn-warning badge">EDIT</a></div>
+            <div class="float-right p-2" style="display: inline-block;"><a href="{% url 'delete_product'  product.id %}" class="btn btn-danger badge">DELETE</a></div>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% endfor %}
+    {% else %}
+    <p class="card-text">No products have been added to your collection yet</p>
+    {% endif %}
+
+
+  </div>
+</div>
+{% endblock %}

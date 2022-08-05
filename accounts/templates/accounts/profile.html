@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+	.profile-pic{
+		max-width: 200px;
+		max-height:200px;
+		margin: 0 auto;
+		border-radius: 50%;
+	}
+</style>
+<!-- ======= Breadcrumbs ======= -->
+<section id="breadcrumbs" class="breadcrumbs">
+    <div class="container">
+
+      <div class="d-flex justify-content-between align-items-center">
+       
+        <ol>
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li>Profile</li>
+        </ol>
+      </div>
+
+    </div>
+</section><!-- End Breadcrumbs -->
+
+<section id="contact" class="contact">
+    <div class="container">
+        {% include '_partials/messages.html'%}
+        <div class="row">
+            <div class="col-md-3 mt-5" >
+                <div class="card card-header " style="border: 0px dotted grey;">
+                    <hr>
+                    <h3 style="text-align: center">PROFILE</h3>
+                    <hr>
+                    <img class="profile-pic" src="{{profile.avatar.url}}" >
+                
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="row  justify-content-center" data-aos="fade-up">
+                    <div class="col-lg-10">
+                        <div class="card" style="border: 0px dotted grey;">
+                            <div class="card-header" >
+                                <div class="card-body" >
+                                    <form enctype="multipart/form-data" method="post"  >{% csrf_token %}
+                                    <div class="form-group mt-4">
+                                    <label for="" class="form-label font-weight-bold">FULL NAME</label>
+                                    <input type="text" class="form-control" name="full_name" value="{{ profile.full_name }}" id="Full name"  >
+                                    </div>
+                                    <div class="form-group mt-4">
+                                    <label for="" class="form-label font-weight-bold">BIO</label>
+                                    <textarea class="form-control" name="bio" rows="5" >{{ profile.bio }}</textarea>
+                                    </div>
+                                    <div class="form-group mt-4">
+                                        <label for="" class="form-label font-weight-bold">Choose Image</label>
+                                        <input type="file" name="avatar"  class="form-control" >
+                                    </div>
+                                    <div class="text-center"><button  class="btn-lg btn-danger " type="submit">Update</button></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+          
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mt-5" data-aos="fade-up">
+
+            <div class="col-lg-10">
+
+            <div class="info-wrap">
+                <div class="row">
+                <div class="col-lg-4 info">
+                    <i class="bi bi-geo-alt"></i>
+                    <h4>Username:</h4>
+                    <p>{{request.user.username}}</p>
+                </div>
+
+                <div class="col-lg-4 info mt-4 mt-lg-0">
+                    <i class="bi bi-phone"></i>
+                    <h4>User Type</h4>
+                    <p>{{request.user.user_type}}</p>
+                </div>
+
+                <div class="col-lg-4 info mt-4 mt-lg-0">
+                    <i class="bi bi-envelope"></i>
+                    <h4>Email:</h4>
+                    <p>{{request.user.email}}</p>
+                </div>
+
+                
+                </div>
+            </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+</section>
+{% endblock %}
