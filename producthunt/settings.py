@@ -26,8 +26,15 @@ SECRET_KEY = "79nj*_qu7%xtcp%^l)0rz4#(jg*r+cl_+ctr#24pszcv_$ata5"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'projecthuntt.herokuapp.com']
-
+ALLOWED_HOSTS = [
+   '*',
+   'http://projecthuntt.herokuapp.com/',
+   'https://projecthuntt.herokuapp.com/',
+   'projecthuntt.herokuapp.com',
+   'projecthuntt.herokuapp.com/',
+   '127.0.0.1',
+   '0.0.0.0',
+]
 
 # Application definition
 
