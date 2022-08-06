@@ -89,13 +89,18 @@ WSGI_APPLICATION = 'producthunt.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'producthunt',
-        'USER': 'postgres',
-        "PASSWORD": 'producthunt',
-        "HOST": 'localhost',
-        "PORT": '5433'
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        "PASSWORD": os.environ.get('DB_PASSWORD'),
+        "HOST": os.environ.get('DB_HOST'),
+        "PORT": os.environ.get('DB_PORT')
     }
 }
+
+import dj_database_url
+
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
 
 # import dj_database_url
 
