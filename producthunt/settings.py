@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "79nj*_qu7%xtcp%^l)0rz4#(jg*r+cl_+ctr#24pszcv_$ata5"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
    "*",
@@ -89,27 +89,27 @@ WSGI_APPLICATION = 'producthunt.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': os.environ.get('DB_NAME'),
-#         'USER': os.environ.get('DB_USER'),
-#         "PASSWORD": os.environ.get('DB_PASSWORD'),
-#         "HOST": os.environ.get('DB_HOST'),
-#         "PORT": os.environ.get('DB_PORT')
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'producthunt',
-        'USER': 'postgres',
-        "PASSWORD": 'producthunt',
-        "HOST": 'localhost',
-        "PORT": '5433'
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        "PASSWORD": os.environ.get('DB_PASSWORD'),
+        "HOST": os.environ.get('DB_HOST'),
+        "PORT": os.environ.get('DB_PORT')
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'producthunt',
+#         'USER': 'postgres',
+#         "PASSWORD": 'producthunt',
+#         "HOST": 'localhost',
+#         "PORT": '5433'
+#     }
+# }
 
 # import dj_database_url
 
