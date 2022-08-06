@@ -4,7 +4,13 @@
  */
 /* FONT PATH
  * -------------------------- */
-
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('../fonts/fontawesome-webfont.eot?v=4.6.3');
+  src: url('../fonts/fontawesome-webfont.eot?#iefix&v=4.6.3') format('embedded-opentype'), url('../fonts/fontawesome-webfont.woff2?v=4.6.3') format('woff2'), url('../fonts/fontawesome-webfont.woff?v=4.6.3') format('woff'), url('../fonts/fontawesome-webfont.ttf?v=4.6.3') format('truetype'), url('../fonts/fontawesome-webfont.svg?v=4.6.3#fontawesomeregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
 .fa {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
@@ -2193,7 +2199,16 @@
 }
 
 
-
+@font-face {
+    font-family: 'simple-line-icons';
+    src:    url('../fonts/simple-line-icons.eot?thkwh4');
+    src:    url('../fonts/simple-line-icons.eot?thkwh4#iefix') format('embedded-opentype'),
+        url('../fonts/simple-line-icons.ttf?thkwh4') format('truetype'),
+        url('../fonts/simple-line-icons.woff?thkwh4') format('woff'),
+        url('../fonts/simple-line-icons.svg?thkwh4#simple-line-icons') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
 
 .sl {
     /* use !important to prevent issues with browser extensions that change fonts */
@@ -2730,7 +2745,16 @@
   Iconsmind
 -----------------------------------------------------*/
 
-
+@font-face {
+  font-family: 'iconsmind';
+  src:url('../fonts/iconsmind.eot?-rdmvgc');
+  src:url('../fonts/iconsmind.eot?#iefix-rdmvgc') format('embedded-opentype'),
+    url('../fonts/iconsmind.woff?-rdmvgc') format('woff'),
+    url('../fonts/iconsmind.ttf?-rdmvgc') format('truetype'),
+    url('../fonts/iconsmind.svg?-rdmvgc#iconsmind') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
 
 .im {
   font-family: 'iconsmind'  !important;
