@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "79nj*_qu7%xtcp%^l)0rz4#(jg*r+cl_+ctr#24pszcv_$ata5"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
    "*",
@@ -89,37 +89,28 @@ WSGI_APPLICATION = 'producthunt.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': os.environ.get('DB_NAME'),
-#         'USER': os.environ.get('DB_USER'),
-#         "PASSWORD": os.environ.get('DB_PASSWORD'),
-#         "HOST": os.environ.get('DB_HOST'),
-#         "PORT": os.environ.get('DB_PORT')
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'producthunt',
-        'USER': 'postgres',
-        "PASSWORD": 'producthunt',
-        "HOST": 'localhost',
-        "PORT": '5433'
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        "PASSWORD": os.environ.get('DB_PASSWORD'),
+        "HOST": os.environ.get('DB_HOST'),
+        "PORT": os.environ.get('DB_PORT')
     }
 }
 
-# import dj_database_url
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'producthunt',
+#         'USER': 'postgres',
+#         "PASSWORD": 'producthunt',
+#         "HOST": 'localhost',
+#         "PORT": '5433'
+#     }
+# }
 
-# db_from_env = dj_database_url.config(conn_max_age=600)
-# DATABASES['default'].update(db_from_env)
-
-# import dj_database_url
-
-# db_from_env = dj_database_url.config(conn_max_age=600)
-# DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -158,13 +149,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/images/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
+
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
@@ -172,7 +166,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 AUTH_USER_MODEL = 'accounts.User'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
 
