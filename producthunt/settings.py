@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import sys
+import dj_database_url
+import django_on_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -89,12 +91,26 @@ WSGI_APPLICATION = 'producthunt.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+#     }
+# }
+
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'dc2t74ftcn6tj0',
+        'USER': 'zvwyauqqplzspr',
+        "PASSWORD": 'a78258d601574fe910377a12216e7964da243ef40513ab6d9b5f4d29d383c9ae',
+        "HOST": 'ec2-34-227-135-211.compute-1.amazonaws.com',
+        "PORT": '5432'
     }
 }
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 
 # DATABASES = {
 #     'default': {
@@ -162,6 +178,8 @@ STATICFILES_DIRS = (
 )
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+django_on_heroku.settings(locals())
 
 MEDIA_URL = '/images/'
 
