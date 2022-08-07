@@ -9,7 +9,7 @@ class Product(models.Model):
     title = models.CharField(max_length=255, )
     description = models.TextField()
     image = models.ImageField(
-        upload_to="uploads/%Y/%m/%d/", default = None)
+        upload_to="products/%Y/%m/%d/", default = None)
     project_url = models.URLField(max_length = 200, blank=True)
     votes = models.ManyToManyField(
         User, related_name='vote', default=None, blank=True)
