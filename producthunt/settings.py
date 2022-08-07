@@ -21,13 +21,23 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY',)
+SECRET_KEY = "79nj*_qu7%xtcp%^l)0rz4#(jg*r+cl_+ctr#24pszcv_$ata5"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'projecthuntt.herokuapp.com']
-
+ALLOWED_HOSTS = [
+   "*",
+   'http://projecthuntt.herokuapp.com/',
+   "https://projecthuntt.herokuapp.com/",
+   "http://projecthuntt.herokuapp.com/",
+   "projecthuntt.herokuapp.com",
+   "/projecthuntt.herokuapp.com",
+   'projecthuntt.herokuapp.com/',
+   "127.0.0.1",
+   '0.0.0.0',
+   "*/",
+]
 
 # Application definition
 
@@ -46,7 +56,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.whiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -80,20 +90,34 @@ WSGI_APPLICATION = 'producthunt.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': os.environ.get('DB_ENGINE'),
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        "PASSWORD": os.environ.get('DB_PASSWORD'),
-        "HOST": os.environ.get('DB_HOST'),
-        "PORT": os.environ.get('DB_PORT')
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
 
-import dj_database_url
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.environ.get('DB_NAME'),
+#         'USER': os.environ.get('DB_USER'),
+#         "PASSWORD": os.environ.get('DB_PASSWORD'),
+#         "HOST": os.environ.get('DB_HOST'),
+#         "PORT": os.environ.get('DB_PORT')
+#     }
+# }
 
-db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES['default'].update(db_from_env)
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'producthunt',
+#         'USER': 'postgres',
+#         "PASSWORD": 'producthunt',
+#         "HOST": 'localhost',
+#         "PORT": '5433'
+#     }
+# }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -132,13 +156,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/images/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
+
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
@@ -146,17 +173,16 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 AUTH_USER_MODEL = 'accounts.User'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
 
 # EMAIL CONFIG
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-EMAIL_FROM_USER = os.environ.get('EMAIL_FROM_USER')
+EMAIL_FROM_USER = 'projecthuntt@gmail.com'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = 'projecthuntt@gmail.com'
+EMAIL_HOST_PASSWORD = 'szhkcxnljbjxjlhb'
 EMAIL_PORT = 465
 
 EMAIL_USE_SSL = True
