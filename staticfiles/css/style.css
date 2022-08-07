@@ -411,8 +411,8 @@ h6 {
 #hero .carousel-item::before {
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
-  position: absolute;
+  min-height: 60vh;
+  position: relative;
   top: 0;
   right: 0;
   left: 0;
