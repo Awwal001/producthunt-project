@@ -197,12 +197,21 @@ TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
 # EMAIL CONFIG
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-EMAIL_FROM_USER = os.environ.get('EMAIL_FROM_USER')
+# EMAIL_FROM_USER = os.environ.get('EMAIL_FROM_USER')
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+# EMAIL_PORT = 465
+
+# EMAIL_USE_SSL = True
+
+# EMAIL_USE_TLS = False
+
+# email stuff
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = 'aderibigbeawwal@gmail.com'
+DEFAULT_FROM_EMAIL = 'aderibigbeawwal@gmail.com'
 EMAIL_PORT = 465
-
+EMAIL_HOST_PASSWORD = 'ykovzwdfouduyija'
 EMAIL_USE_SSL = True
-
 EMAIL_USE_TLS = False
